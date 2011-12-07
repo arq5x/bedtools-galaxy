@@ -1,6 +1,10 @@
 <tool id="bedtools_bamtobed" name="Convert from BAM to BED." version="2.14.4">
 <description></description>
 
+<requirements>
+    <requirement type="binary">bamToBed</requirement>
+</requirements>
+
 <command>
     bamToBed $option $ed_score -i '$input' &gt; '$output' 
     #if str($tag):
