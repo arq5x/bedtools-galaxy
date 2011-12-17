@@ -1,0 +1,195 @@
+<tool id="BEDTools_mergeBEdGraph" name="Merge BedGraph files" version="0.1">
+	<description></description>
+	<command>mergeBedGraph
+		$header
+		--filler '$filler'
+		#if $zero.value == True:
+			--empty
+			--genome ${GALAXY_DATA_INDEX_DIR}/BEDTools/chrom_sizes/${dbkey}
+		#end if
+		--names
+
+		'$input1'
+		#if $name1.choice == "tag":
+			'${input1.tag}'
+		#else
+			'${name1.custom_name}'
+		#end if
+
+		'$input2'
+		#if $name2.choice == "tag":
+			'${input2.tag}'
+		#else
+			'${name2.custom_name}'
+		#end if
+
+		#for $q in $bedgraphs
+			'${q.input}'
+			#if $q.name.choice == "tag":
+				'${q.input.tag}'
+			#else
+				'${q.input.custom_name}'
+			#end if
+		#end for
+		&gt; '$output'
+	</command>
+	<inputs>
+		<!-- Make it easy for the user, first two input files are always shown -->
+
+		<!-- INPUT 1 -->
+		<param name="input1" format="bedgraph" type="data" label="First BedGraph file" />
+		<conditional name="name1">
+			<param name="choice" type="select" label="Sample name">
+				<option value="tag" selected="true">Use input's tag</option>
+				<option value="custom">Enter custom table name</option>
+			</param>
+			<when value="tag">
+			</when>
+			<when value="custom">
+				<param name="custom_name" type="text" area="false" label="Custom sample name"/>
+			</when>
+		</conditional>
+
+		<!-- INPUT 2 -->
+		<param name="input2" format="bedgraph" type="data" label="Second BedGraph file" />
+		<conditional name="name2">
+			<param name="choice" type="select" label="Sample name">
+				<option value="tag" selected="true">Use input's tag</option>
+				<option value="custom">Enter custom table name</option>
+			</param>
+			<when value="tag">
+			</when>
+			<when value="custom">
+				<param name="custom_name" type="text" area="false" label="Custom sample name"/>
+			</when>
+		</conditional>
+
+		<!-- Additional files, if the user needs more -->
+		<repeat name="bedgraphs" title="bedGraph files" >
+			<param name="input" format="bedgraph" type="data" label="BedGraph file" />
+
+			<conditional name="name">
+				<param name="choice" type="select" label="Sample name">
+					<option value="tag" selected="true">Use input's tag</option>
+					<option value="custom">Enter custom table name</option>
+				</param>
+				<when value="tag">
+				</when>
+				<when value="custom">
+					<param name="custom_name" type="text" area="false" label="Custom sample name"/>
+				</when>
+			</conditional>
+		</repeat>
+
+		<param name="header" type="boolean" checked="true" truevalue="--header" falsevalue="" label="Print header line" help="The first line will include the name of each sample." />
+
+		<param name="zero" type="boolean" checked="false" label="Report regions with zero coverage" help="If set, regions without any coverage will also be reported. Requires a valid organism key for all input datasets" />
+
+		<param name="filler" type="text" value="0" label="Text to use for no-coverage value" help="Can be 0.0, N/A, - or any other value." />
+	</inputs>
+
+	<outputs>
+		<data format="bedgraph" name="output"  metadata_source="input1" label="Merged BedGraphs ($input1.tag, $input2.tag2, and more)" />
+	</outputs>
+	<help>
+	
+**What it does**
+
+This tool merges multiple BedGraph files, allowing coverage comparison between samples.
+
+.. image:: ./static/images/mergeBedGraph.png
+
+------
+
+**Zero Coverage**
+
+If set, the output file will contain all regions that are not covered in any of the input files.
+
+This option requires that the organism key (=database) is set for the first input file (and assumes all input files come from the same organism).
+
+Output example (*without* Zero-covered regions)::
+    
+    chr1     900    1000     0    60     0
+    chr1    1000    1500    10    60     0
+    chr1    1500    1600     0    60     0
+    chr1    1700    1980     0    50     0
+    chr1    1980    2000     0    50    80
+    chr1    2000    2050    20    50    80
+    chr1    2050    2070    20     0    80
+    chr1    2070    2090    20     0     0
+    chr1    2090    2100    20     0    20
+
+
+Output example (*with* Zero-covered regions)::
+    
+    chr1       0          900     0     0     0 (*)
+    chr1     900         1000     0    60     0
+    chr1    1000         1500    10    60     0
+    chr1    1500         1600     0    60     0
+    chr1    1600         1700     0     0     0 (*)
+    chr1    1700         1980     0    50     0
+    chr1    1980         2000     0    50    80
+    chr1    2000         2050    20    50    80
+    chr1    2050         2070    20     0    80
+    chr1    2070         2090    20     0     0
+    chr1    2090         2100    20     0    20
+    chr1    2100    247249719     0     0     0 (*) 
+
+The lines marked with (*) are not covered in any input file, but are still reported (The asterisk marking does not appear in the file).
+
+
+------
+
+**Filler value** for no-covered intervals.
+
+The default value is '0', but you can use any other value.
+
+Output example with **filler = N/A**::
+    
+    chr1     900    1000    N/A     60    N/A
+    chr1    1000    1500     10     60    N/A
+    chr1    1500    1600    N/A     60    N/A
+    chr1    1600    1700    N/A    N/A    N/A
+    chr1    1700    1980    N/A     50    N/A
+    chr1    1980    2000    N/A     50     80
+    chr1    2000    2050     20     50     80
+    chr1    2050    2070     20    N/A     80
+    chr1    2070    2090     20    N/A    N/A
+    chr1    2090    2100     20    N/A     20
+
+------
+
+**Non-numeric values**
+
+The input BedGraph files can contain any kind of value in the fourth column, not necessarily a numeric value.
+
+Input Example::
+        
+    File-1                           File-2 
+    chr1   200   300   Sample1       chr1   100   240   0.75
+    chr1   400   450   Sample1       chr1   250   700   0.43
+    chr1   530   600   Sample2
+
+Output Example::
+    
+    chr1   100    200    0         0.75
+    chr1   200    240    Sample1   0.75
+    chr1   240    250    Sample1   0
+    chr1   250    300    Sample1   0.43
+    chr1   300    400    0         0.43
+    chr1   400    450    Sample1   0.43
+    chr1   450    530    0         0.43
+    chr1   530    600    Sample2   0.43
+    chr1   600    700    0         0.43
+
+
+-----
+
+This tool is part of the `BEDTools package`__ from the `Quinlan laboratory`__.
+
+.. __: http://code.google.com/p/bedtools/
+.. __: http://cphg.virginia.edu/quinlan/
+
+ 
+</help>
+</tool>

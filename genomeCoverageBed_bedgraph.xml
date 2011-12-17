@@ -1,0 +1,108 @@
+<tool id="bedtools_genomecoveragebed_bedgraph" name="Create a BEDGRAPH of genome coverage" version="0.1">
+
+    <requirements>
+        <requirement type="binary">genomeCoverageBed</requirement>
+    </requirements>
+
+    <command>genomeCoverageBed
+        #if $input.ext == "bam"
+            -ibam '$input'
+        #else
+            -i '$input'
+        #end if
+
+        -g ${GALAXY_DATA_INDEX_DIR}/BEDTools/chrom_sizes/${dbkey}
+        -bg
+        $zero_regions
+        $split
+        $strand
+        &gt; '$output'
+    </command>
+
+    <inputs>
+        <param format="bed,bam" name="input" type="data" label="BED or BAM File">
+              <validator type="unspecified_build" />
+        </param>
+
+        <param name="zero_regions" type="boolean" checked="false" truevalue="-bga" falsevalue="" label="Report regions with zero coverage" help="If set, regions without any coverage will also be reported." />
+
+        <param name="split" type="boolean" checked="false" truevalue="-split" falsevalue="" label="Treat \"split/spliced\" BAM or BED12 entries as distinct BED intervals when computing coverage." help="If set, the coverage will be calculated based the spliced intervals only. For BAM files, this inspects the CIGAR \"N\" to infer the blocks for computing coverage. For BED12 files, this inspects the BlockCount, BlockStarts, and BlockEnds fields (i.e., columns 10,11,12). If this option is not set, coverage will be calculated based on the interval's START/END coordinates, and would include introns in the case of RNAseq data." />
+
+        <param name="strand" type="select" label="Calculate coverage based on">
+            <option value="">Both strands combined</option>
+            <option value="-strand +">Positive strand only</option>
+            <option value="-strand -">Negative strand only</option>
+        </param>
+
+    </inputs>
+
+    <outputs>
+        <data format="bedgraph" name="output"  metadata_source="input" label="$input.tag (Coverage)" />
+    </outputs>
+    <help>
+
+
+**What it does**
+
+This tool calculates the coverage of intervals form a BED file over a genome.
+
+.. class:: infomark
+
+BedGraph is useful for displaying sequencing coverage over an entire genome. After creating a BedGraph file, one may also use the BedGraph-To-BigWig tool to create a binary BigWig file which can be uploaded in the UCSC Genome Browser.
+
+.. class:: warningmark
+
+The input BED or BAM file must be sorted by chromosome name (but doesn't have to be sorted by start position).
+-----
+
+**Example 1**
+
+Input (BED format)-
+Overlapping, un-sorted intervals::
+
+    chr1    140 176
+    chr1    100 130
+    chr1    120 147
+
+
+Output (BedGraph format)-
+Sorted, non-overlapping intervals, with coverage value on the 4th column::
+
+    chr1    100 120 1
+    chr1    120 130 2
+    chr1    130 140 1
+    chr1    140 147 2
+    chr1    147 176 1
+
+-----
+
+**Example 2 - with ZERO-Regions selected (assuming hg19)**
+
+Input (BED format)-
+Overlapping, un-sorted intervals::
+
+    chr1    140 176
+    chr1    100 130
+    chr1    120 147
+
+
+Output (BedGraph format)-
+Sorted, non-overlapping intervals, with coverage value on the 4th column::
+
+    chr1    0 100 0
+    chr1    100 120 1
+    chr1    120 130 2
+    chr1    130 140 1
+    chr1    140 147 2
+    chr1    147 176 1
+    chr1    176 249250621 0
+
+
+This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__.
+
+.. __: http://code.google.com/p/bedtools/
+.. __: http://cphg.virginia.edu/quinlan/
+
+
+</help>
+</tool>
