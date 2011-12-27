@@ -1,61 +1,53 @@
-<tool id="BEDTools_genomeCoverageBed_histogram" name="Genome Coverage Histogram" version="0.1">
+<tool id="bedtools_genomecoveragebed_histogram" name="Create a histogram of genome coverage" version="0.1.0">
 	<description></description>
+	
+	<requirements>
+        <requirement type="binary">genomeCoverageBed</requirement>
+    </requirements>
+    
 	<command>genomeCoverageBed
-		#if $input.ext == "bam"
-			-ibam '$input'
-		#else
-			-i '$input'
-		#end if
-#if $genomefile.source == "dbkey":
-		-g ${GALAXY_DATA_INDEX_DIR}/BEDTools/chrom_sizes/${dbkey}
-#end if
-#if $genomefile.source == "custom":
-		-g '$genomefile.genome_custom_file'
-#end if
+        #if $input.ext == "bam"
+            -ibam '$input'
+        #else
+            -i '$input'
+            -g ${chromInfo}
+        #end if
+		#if str($max):
+          -max      $max
+        #end if
 		&gt; '$output'
 	</command>
 
 	<inputs>
-		<param format="bed,bam" name="input" type="data" label="BED/BAM File">
-		</param>
-
-		<conditional name="genomefile">
-			<param name="source" type="select" label="Genome's database">
-				<option value="dbkey">Standard Genome, based on Dataset's organism</option>
-				<option value="custom">Use custom dataset</option>
-			</param>
-
-			<when value="dbkey">
-				<!-- the "dbkey" will set the database, no need for use input -->
-			</when>
-
-			<when value="custom">
-				<param name="genome_custom_file" type="data" format="tabular" label="Genome Database File" help="Must contains two columns: chromosome and length" />
-			</when>
-		</conditional>
+		<param format="bed,bam" name="input" type="data" label="The BAM or BED file from which coverage should be computed"></param>
+		<param name="max" type="text" optional="true" label="Max depth" help="Combine all positions with a depth >= max into a single bin in the histogram."/>
 	</inputs>
 
 	<outputs>
-		<data format="tabular" name="output"  metadata_source="input" label="$input.tag (Genome Coverage Histogram)" />
+		<data format="tabular" name="output"  metadata_source="input" label="${input.name} (Genome Coverage Histogram)" />
 	</outputs>
-	<help>
+
+<help>
 **What it does**
 
-This tool calculates the genome coverage depth based on mapped reads.
+This tool calculates a histogram of genome coverage depth based on mapped reads in BAM format or intervals in BED format.
 
-.. class:: infomark
-
-Use **Genome Coverage Plot** tool to plot the textual output of this tool.
 
 ------
 
+.. class:: warningmark
+
+This tool requires that `bedtools`__ has been installed on your system.
+
+.. class:: infomark
+
 The output file will contain five columns:
 
-    * Chromosome name (or 'genome' for whole-genome coverage)
-    * Coverage depth
-    * number of bases on chromosome (or genome) with depth equal to column 2.
-    * size of chromosome (or entire genome) in base pairs
-    * fraction of bases on chromosome (or entire genome) with depth equal to column 2.
+    * 1. Chromosome name (or 'genome' for whole-genome coverage)
+    * 2. Coverage depth
+    * 3. The number of bases on chromosome (or genome) with depth equal to column 2.
+    * 4. The size of chromosome (or entire genome) in base pairs
+    * 5. The fraction of bases on chromosome (or entire genome) with depth equal to column 2.
 
 **Example Output**::
     
@@ -72,16 +64,17 @@ The output file will contain five columns:
 
 
 
-For more information see section 5.12 (GenomeCoverageBed) in the BEDTools manual (http://bedtools.googlecode.com/files/BEDTools-User-Manual.pdf)
 
 ------
 
-This tool is part of the `BEDTools package`__ from the `Quinlan laboratory`__.
+This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. If you use this tool, please cite `Quinlan AR, and Hall I.M. BEDTools: A flexible framework for comparing genomic features. Bioinformatics, 2010, 26, 6.`__
 
-.. __: http://code.google.com/p/bedtools/
-.. __: http://cphg.virginia.edu/quinlan/
+    .. __: http://code.google.com/p/bedtools/
+    .. __: http://code.google.com/p/bedtools/
+    .. __: http://cphg.virginia.edu/quinlan/
+    .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short
 
- 
+
 
 </help>
 </tool>
