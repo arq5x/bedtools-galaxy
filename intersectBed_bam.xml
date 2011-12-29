@@ -1,5 +1,7 @@
-<tool id="bedtools_intersectbed_bam" name="Find BAM alignments that overlap intervals in another file" version="0.1.0">
-
+<tool id="bedtools_intersectbed_bam" name="Intersect BAM alignments with intervals in another files" version="0.1.0">
+<description>
+</description>
+    
 <requirements>
     <requirement type="binary">intersectBed</requirement>
 </requirements>
@@ -19,10 +21,10 @@
 </command>
 
 <inputs>
-    <param format="bed,bam" name="inputA" type="data" label="Which alignments in this BAM file">
+    <param format="bam" name="inputA" type="data" label="Which alignments in this BAM file">
           <validator type="unspecified_build" />
     </param>
-    <param format="bed" name="inputB" type="data" label="overlap intervaks in this BED file">
+    <param format="bed" name="inputB" type="data" label="overlap intervals in this BED file?">
           <validator type="unspecified_build" />
     </param>
     <param name="split" type="boolean" checked="true" truevalue="-split" falsevalue="" label="Treat split/spliced BAM or BED12 entries as distinct BED intervals when computing coverage." help="If set, the coverage will be calculated based the spliced intervals only. For BAM files, this inspects the CIGAR N operation to infer the blocks for computing coverage. For BED12 files, this inspects the BlockCount, BlockStarts, and BlockEnds fields (i.e., columns 10,11,12). If this option is not set, coverage will be calculated based on the interval's START/END coordinates, and would include introns in the case of RNAseq data." />
@@ -54,6 +56,10 @@ This tool creates a new BAM alignment file based on alignments that overlap (or 
 .. class:: infomark
 
 Note that each BAM alignment is treated individually.  Therefore, if one end of a paired-end alignment overlaps an interval in the BED file, yet the other end does not, the output file will only include the overlapping end.
+
+.. class:: infomark
+
+Note that a BAM alignment will be sent to the output file **once** even if it overlaps more than one interval in the BED file.
 
 .. class:: warningmark
 

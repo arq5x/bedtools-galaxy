@@ -1,5 +1,6 @@
-<tool id="bedtools_mergebedgraph" name="Merge multiple BedGraph files" version="0.1.0">
-	<description></description>
+<tool id="bedtools_mergebedgraph" name="Merge BedGraph files" version="0.1.0">
+	<description>
+	</description>
 	
 	<requirements>
         <requirement type="binary">unionBedGraphs</requirement>

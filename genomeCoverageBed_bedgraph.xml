@@ -1,5 +1,8 @@
 <tool id="bedtools_genomecoveragebed_bedgraph" name="Create a BedGraph of genome coverage" version="0.1.0">
 
+    <description>
+    </description>
+    
     <requirements>
         <requirement type="binary">genomeCoverageBed</requirement>
     </requirements>

@@ -1,5 +1,6 @@
-<tool id="bedtools_multiintersectbed" name="Identify common intervals among multiple BED files." version="0.1.0">
-	<description></description>
+<tool id="bedtools_multiintersectbed" name="Intersect multiple sorted BED files" version="0.1.0">
+	<description>
+	</description>
 	
 	<requirements>
         <requirement type="binary">multiIntersectBed</requirement>
