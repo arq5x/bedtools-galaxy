@@ -1,4 +1,4 @@
-<tool id="bedtools_sortbed" name="Sort BED" version="0.2.0">
+<tool id="bedtools_sortbed" name="Sort BED" version="2.18.2.0">
     <description>files</description>
     <requirements>
         <requirement type="package" version="2.18.2">bedtools</requirement>

@@ -1,4 +1,4 @@
-<tool id="bedtools_genomecoveragebed_histogram" name="Create a histogram" version="0.2.0">
+<tool id="bedtools_genomecoveragebed_histogram" name="Create a histogram" version="2.18.2.0">
     <description>of genome coverage</description>
     <requirements>
         <requirement type="package" version="2.18.2">bedtools</requirement>

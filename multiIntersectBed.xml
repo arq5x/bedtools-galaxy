@@ -1,4 +1,4 @@
-<tool id="bedtools_multiintersectbed" name="Intersect" version="0.2.0">
+<tool id="bedtools_multiintersectbed" name="Intersect" version="2.18.2.0">
     <description>multiple sorted BED files</description>
     <requirements>
         <requirement type="package" version="2.18.2">bedtools</requirement>

@@ -1,4 +1,4 @@
-<tool id="bedtools_genomecoveragebed_bedgraph" name="Create a BedGraph" version="0.2.0">
+<tool id="bedtools_genomecoveragebed_bedgraph" name="Create a BedGraph" version="2.18.2.0">
     <description>of genome coverage</description>
     <requirements>
         <requirement type="package" version="2.18.2">bedtools</requirement>

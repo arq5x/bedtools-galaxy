@@ -1,4 +1,4 @@
-<tool id="bedtools_coveragebed_counts" name="Count intervals" version="0.2.0">
+<tool id="bedtools_coveragebed_counts" name="Count intervals" version="2.18.2.0">
     <description>in one file overlapping intervals in another file</description>
     <requirements>
         <requirement type="package" version="2.18.2">bedtools</requirement>
