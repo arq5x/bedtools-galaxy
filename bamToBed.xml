@@ -1,11 +1,11 @@
-<tool id="bedtools_bamtobed" name="Convert from BAM to BED" version="0.1.0">
+<tool id="bedtools_bamtobed" name="Convert from BAM to BED" version="0.2.0">
 
-<description>
-</description>    
+    <description>
+    </description>
 
-<requirements>
-    <requirement type="binary">bamToBed</requirement>
-</requirements>
+    <requirements>
+        <requirement type="package" version="2.17.0_5e4507c54355a4a38c6d3e7497a2836a123c6655">bedtools</requirement>
+    </requirements>
 
 <command>
     bamToBed $option $ed_score -i '$input' &gt; '$output' 
@@ -51,15 +51,11 @@ If using a custom BAM alignment TAG as  the BED score, note that this must be a 
 
 If creating a BEDPE output (see output formatting options), the BAM file should be sorted by query name.
 
-.. class:: warningmark
-
-This tool requires that `bedtools`__ has been installed on your system.
 
 ------
 
 This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. If you use this tool, please cite `Quinlan AR, and Hall I.M. BEDTools: A flexible framework for comparing genomic features. Bioinformatics, 2010, 26, 6.`__
 
-    .. __: http://code.google.com/p/bedtools/
     .. __: http://code.google.com/p/bedtools/
     .. __: http://cphg.virginia.edu/quinlan/
     .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short

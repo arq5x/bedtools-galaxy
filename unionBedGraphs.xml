@@ -1,11 +1,9 @@
-<tool id="bedtools_mergebedgraph" name="Merge BedGraph files" version="0.1.0">
-	<description>
-	</description>
-	
-	<requirements>
-        <requirement type="binary">unionBedGraphs</requirement>
+<tool id="bedtools_mergebedgraph" name="Merge BedGraph" version="0.2.0">
+    <description>files</description>
+    <requirements>
+        <requirement type="package" version="2.18.2">bedtools</requirement>
     </requirements>
-    
+    <version_command>bedtools --version</version_command>
 	<command>unionBedGraphs
 		$header
 		-filler '$filler'
@@ -115,9 +113,6 @@ This tool merges multiple BedGraph files, allowing direct and fine-scale coverag
 
 This tool requires that each BedGraph file is reference-sorted (chrom, then start) and contains non-overlapping intervals (within a given file).
 
-.. class:: warningmark
-
-This tool requires that `bedtools`__ has been installed on your system.
 
 ------
 
@@ -236,7 +231,6 @@ Output Example::
 
 This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. If you use this tool, please cite `Quinlan AR, and Hall I.M. BEDTools: A flexible framework for comparing genomic features. Bioinformatics, 2010, 26, 6.`__
 
-    .. __: http://code.google.com/p/bedtools/
     .. __: http://code.google.com/p/bedtools/
     .. __: http://cphg.virginia.edu/quinlan/
     .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short

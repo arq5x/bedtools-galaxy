@@ -1,11 +1,9 @@
-<tool id="bedtools_multiintersectbed" name="Intersect multiple sorted BED files" version="0.1.0">
-	<description>
-	</description>
-	
-	<requirements>
-        <requirement type="binary">multiIntersectBed</requirement>
+<tool id="bedtools_multiintersectbed" name="Intersect" version="0.2.0">
+    <description>multiple sorted BED files</description>
+    <requirements>
+        <requirement type="package" version="2.18.2">bedtools</requirement>
     </requirements>
-    
+    <version_command>bedtools --version</version_command>
 	<command>multiIntersectBed
 		$header
 		#if $zero.value == True:
@@ -114,9 +112,6 @@ This tool identifies common intervals among multiple, sorted BED files. Interval
 
 This tool requires that each BED file is reference-sorted (chrom, then start).
 
-.. class:: warningmark
-
-This tool requires that `bedtools`__ has been installed on your system.
 
 .. class:: infomark
 
@@ -197,7 +192,6 @@ The output file will contain five fixed columns, plus additional columns for eac
 
 This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. If you use this tool, please cite `Quinlan AR, and Hall I.M. BEDTools: A flexible framework for comparing genomic features. Bioinformatics, 2010, 26, 6.`__
 
-    .. __: http://code.google.com/p/bedtools/
     .. __: http://code.google.com/p/bedtools/
     .. __: http://cphg.virginia.edu/quinlan/
     .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short
