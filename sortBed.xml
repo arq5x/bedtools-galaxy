@@ -1,7 +1,7 @@
 <tool id="bedtools_sortbed" name="Sort BED" version="2.18.2.0">
     <description>files</description>
     <requirements>
-        <requirement type="package" version="2.18.2">bedtools</requirement>
+        <requirement type="package" version="2.18.2">bedtools2</requirement>
     </requirements>
     <version_command>bedtools --version</version_command>
     <command>

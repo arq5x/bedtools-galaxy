@@ -1,7 +1,7 @@
 <tool id="bedtools_genomecoveragebed_histogram" name="Create a histogram" version="2.18.2.0">
     <description>of genome coverage</description>
     <requirements>
-        <requirement type="package" version="2.18.2">bedtools</requirement>
+        <requirement type="package" version="2.18.2">bedtools2</requirement>
     </requirements>
     <version_command>bedtools --version</version_command>
     <command>genomeCoverageBed
