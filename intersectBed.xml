@@ -90,7 +90,7 @@
 
     </inputs>
     <outputs>
-        <data name="output" format="bed" label="Intersection of ${inputA.name} and ${inputB.name}">
+        <data name="output" format="bed" label="Intersection of ${input.name}">
             <change_format>
                 <when input="intype.bed" value="" format="bam"/>
             </change_format>
