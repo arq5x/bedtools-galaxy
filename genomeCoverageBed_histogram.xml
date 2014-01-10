@@ -25,8 +25,7 @@
     <outputs>
         <data format="tabular" name="output"  metadata_source="input" label="${input.name} (Genome Coverage Histogram)" />
     </outputs>
-
-<help>
+    <help>
 **What it does**
 
 This tool calculates a histogram of genome coverage depth based on mapped reads in BAM format or intervals in BED format.
@@ -69,7 +68,5 @@ This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. I
     .. __: http://cphg.virginia.edu/quinlan/
     .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short
 
-
-
-</help>
+    </help>
 </tool>

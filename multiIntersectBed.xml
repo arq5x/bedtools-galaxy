@@ -39,7 +39,6 @@
         #end for
         &gt; '$output'
     </command>
-    
     <inputs>
         <!-- Make it easy for the user, first two input files are always shown -->
         <!-- INPUT 1 -->
@@ -197,7 +196,5 @@ This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. I
     .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short
 
 
-
- 
-</help>
+    </help>
 </tool>

@@ -7,26 +7,24 @@
     <command>
         sortBed -i $input $option &gt; $output
     </command>
-    <inputs>
-        <param format="bed" name="input" type="data" label="Sort the following BED file"/>
-        <param name="option" type="select" label="Sort by">
-        <!-- sort -k 1,1 -k2,2 -n a.bed -->
-        <option value="">chromosome, then by start position (asc)</option>
-        <option value="-sizeA">feature size in ascending order.</option>
-        <option value="-sizeD">feature size in descending order.</option>
-        <option value="-chrThenSizeA">chromosome, then by feature size (asc).</option>
-        <option value="-chrThenSizeD">chromosome, then by feature size (desc).</option>
-        <option value="-chrThenScoreA">chromosome, then by score (asc).</option>
-        <option value="-chrThenScoreD">chromosome, then by score (desc).</option>
-    </param>
+        <inputs>
+            <param format="bed" name="input" type="data" label="Sort the following BED file"/>
+            <param name="option" type="select" label="Sort by">
+            <!-- sort -k 1,1 -k2,2 -n a.bed -->
+            <option value="">chromosome, then by start position (asc)</option>
+            <option value="-sizeA">feature size in ascending order.</option>
+            <option value="-sizeD">feature size in descending order.</option>
+            <option value="-chrThenSizeA">chromosome, then by feature size (asc).</option>
+            <option value="-chrThenSizeD">chromosome, then by feature size (desc).</option>
+            <option value="-chrThenScoreA">chromosome, then by score (asc).</option>
+            <option value="-chrThenScoreD">chromosome, then by score (desc).</option>
+        </param>
+    </inputs>
 
-</inputs>
-
-<outputs>
-    <data format="bed" name="output" metadata_source="input" label="${input.name} (as BED)"/>
-</outputs>
-
-<help>
+    <outputs>
+        <data format="bed" name="output" metadata_source="input" label="${input.name} (as BED)"/>
+    </outputs>
+    <help>
 
 **What it does**
 
@@ -47,5 +45,5 @@ This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. I
     .. __: http://cphg.virginia.edu/quinlan/
     .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short
 
-</help>
+    </help>
 </tool>
