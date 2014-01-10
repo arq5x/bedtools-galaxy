@@ -31,7 +31,6 @@
         $strand
         &gt; $output
     </command>
-
     <inputs>
         <conditional name="intype">
             <param name="inselect" type="select" label="Select input file type">

@@ -4,40 +4,40 @@
         <requirement type="package" version="2.18.2">bedtools</requirement>
     </requirements>
     <version_command>bedtools --version</version_command>
-<command>
-    coverageBed
-    #if $inputA.ext == "bam"
-        -abam '$inputA'
-    #else
-        -a '$inputA'
-    #end if
-    -b '$inputB'
-    -counts
-    $split
-    $strand
-    | sort -k1,1 -k2,2n
-    &gt; '$output'
-</command>
+    <command>
+        coverageBed
+        #if $inputA.ext == "bam"
+            -abam '$inputA'
+        #else
+            -a '$inputA'
+        #end if
+        -b '$inputB'
+        -counts
+        $split
+        $strand
+        | sort -k1,1 -k2,2n
+        &gt; '$output'
+    </command>
 
-<inputs>
-    <param format="bed,bam" name="inputA" type="data" label="Count how many intervals in this BED or BAM file (source)">
-          <validator type="unspecified_build" />
-    </param>
-    <param format="bed" name="inputB" type="data" label="overlap the intervals in this BED file (target)">
-          <validator type="unspecified_build" />
-    </param>
-    <param name="split" type="boolean" checked="false" truevalue="-split" falsevalue="" label="Treat split/spliced BAM or BED12 entries as distinct BED intervals when computing coverage." help="If set, the coverage will be calculated based the spliced intervals only. For BAM files, this inspects the CIGAR N operation to infer the blocks for computing coverage. For BED12 files, this inspects the BlockCount, BlockStarts, and BlockEnds fields (i.e., columns 10,11,12). If this option is not set, coverage will be calculated based on the interval's START/END coordinates, and would include introns in the case of RNAseq data." />
-    
-    <param name="strand" type="select" label="Count">
-        <option value="">overlaps on either strand</option>
-        <option value="-s">only overlaps occurring on the **same** strand.</option>
-        <option value="-S">only overlaps occurring on the **opposite** strand.</option>
-    </param>
-</inputs>
+    <inputs>
+        <param format="bed,bam" name="inputA" type="data" label="Count how many intervals in this BED or BAM file (source)">
+              <validator type="unspecified_build" />
+        </param>
+        <param format="bed" name="inputB" type="data" label="overlap the intervals in this BED file (target)">
+              <validator type="unspecified_build" />
+        </param>
+        <param name="split" type="boolean" checked="false" truevalue="-split" falsevalue="" label="Treat split/spliced BAM or BED12 entries as distinct BED intervals when computing coverage." help="If set, the coverage will be calculated based the spliced intervals only. For BAM files, this inspects the CIGAR N operation to infer the blocks for computing coverage. For BED12 files, this inspects the BlockCount, BlockStarts, and BlockEnds fields (i.e., columns 10,11,12). If this option is not set, coverage will be calculated based on the interval's START/END coordinates, and would include introns in the case of RNAseq data." />
+        
+        <param name="strand" type="select" label="Count">
+            <option value="">overlaps on either strand</option>
+            <option value="-s">only overlaps occurring on the **same** strand.</option>
+            <option value="-S">only overlaps occurring on the **opposite** strand.</option>
+        </param>
+    </inputs>
 
-<outputs>
-    <data format="bed" name="output" metadata_source="inputB" label="count of overlaps in ${inputA.name} on ${inputB.name}"/>
-</outputs>
+    <outputs>
+        <data format="bed" name="output" metadata_source="inputB" label="count of overlaps in ${inputA.name} on ${inputB.name}"/>
+    </outputs>
 
 <help>
 
