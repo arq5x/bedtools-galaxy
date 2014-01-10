@@ -4,27 +4,27 @@
         <requirement type="package" version="2.18.2">bedtools</requirement>
     </requirements>
     <version_command>bedtools --version</version_command>
-	<command>genomeCoverageBed
+    <command>genomeCoverageBed
         #if $input.ext == "bam"
             -ibam '$input'
         #else
             -i '$input'
             -g ${chromInfo}
         #end if
-		#if str($max):
+        #if str($max):
           -max      $max
         #end if
-		&gt; '$output'
-	</command>
+        &gt; '$output'
+    </command>
 
-	<inputs>
-		<param format="bed,bam" name="input" type="data" label="The BAM or BED file from which coverage should be computed"></param>
-		<param name="max" type="text" optional="true" label="Max depth" help="Combine all positions with a depth >= max into a single bin in the histogram."/>
-	</inputs>
+    <inputs>
+        <param format="bed,bam" name="input" type="data" label="The BAM or BED file from which coverage should be computed"></param>
+        <param name="max" type="text" optional="true" label="Max depth" help="Combine all positions with a depth >= max into a single bin in the histogram."/>
+    </inputs>
 
-	<outputs>
-		<data format="tabular" name="output"  metadata_source="input" label="${input.name} (Genome Coverage Histogram)" />
-	</outputs>
+    <outputs>
+        <data format="tabular" name="output"  metadata_source="input" label="${input.name} (Genome Coverage Histogram)" />
+    </outputs>
 
 <help>
 **What it does**

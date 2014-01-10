@@ -4,102 +4,102 @@
         <requirement type="package" version="2.18.2">bedtools</requirement>
     </requirements>
     <version_command>bedtools --version</version_command>
-	<command>multiIntersectBed
-		$header
-		#if $zero.value == True:
-			-empty
-			-g ${chromInfo}
-		#end if
-		
-		-i '$input1'
-		'$input2'
-		#for $q in $beds
-			'${q.input}'
-		#end for
+    <command>multiIntersectBed
+        $header
+        #if $zero.value == True:
+            -empty
+            -g ${chromInfo}
+        #end if
+        
+        -i '$input1'
+        '$input2'
+        #for $q in $beds
+            '${q.input}'
+        #end for
 
-		-names
-		#if $name1.choice == "tag":
-			'${input1.name}'
-		#else
-			'${name1.custom_name}'
-		#end if
+        -names
+        #if $name1.choice == "tag":
+            '${input1.name}'
+        #else
+            '${name1.custom_name}'
+        #end if
 
-		#if $name2.choice == "tag":
-			'${input2.name}'
-		#else
-			'${name2.custom_name}'
-		#end if
+        #if $name2.choice == "tag":
+            '${input2.name}'
+        #else
+            '${name2.custom_name}'
+        #end if
 
-		#for $q in $beds
-			#if $q.name.choice == "tag":
-				'${q.input.name}'
-			#else
-				'${q.input.custom_name}'
-			#end if
-		#end for
-		&gt; '$output'
-	</command>
-	
-	<inputs>
-		<!-- Make it easy for the user, first two input files are always shown -->
-		<!-- INPUT 1 -->
-		<param name="input1" format="bed" type="data" label="First sorted BED file" />
-		
-		<conditional name="name1">
-			<param name="choice" type="select" label="Sample name">
-				<option value="tag" selected="true">Use input's tag</option>
-				<option value="custom">Enter custom table name</option>
-			</param>
-			<when value="tag">
-			</when>
-			<when value="custom">
-				<param name="custom_name" type="text" area="false" label="Custom sample name"/>
-			</when>
-		</conditional>
+        #for $q in $beds
+            #if $q.name.choice == "tag":
+                '${q.input.name}'
+            #else
+                '${q.input.custom_name}'
+            #end if
+        #end for
+        &gt; '$output'
+    </command>
+    
+    <inputs>
+        <!-- Make it easy for the user, first two input files are always shown -->
+        <!-- INPUT 1 -->
+        <param name="input1" format="bed" type="data" label="First sorted BED file" />
+        
+        <conditional name="name1">
+            <param name="choice" type="select" label="Sample name">
+                <option value="tag" selected="true">Use input's tag</option>
+                <option value="custom">Enter custom table name</option>
+            </param>
+            <when value="tag">
+            </when>
+            <when value="custom">
+                <param name="custom_name" type="text" area="false" label="Custom sample name"/>
+            </when>
+        </conditional>
 
-		<!-- INPUT 2 -->
-		<param name="input2" format="bed" type="data" label="Second sorted BED file" />
-		
-		<conditional name="name2">
-			<param name="choice" type="select" label="Sample name">
-				<option value="tag" selected="true">Use input's tag</option>
-				<option value="custom">Enter custom table name</option>
-			</param>
-			<when value="tag">
-			</when>
-			<when value="custom">
-				<param name="custom_name" type="text" area="false" label="Custom sample name"/>
-			</when>
-		</conditional>
+        <!-- INPUT 2 -->
+        <param name="input2" format="bed" type="data" label="Second sorted BED file" />
+        
+        <conditional name="name2">
+            <param name="choice" type="select" label="Sample name">
+                <option value="tag" selected="true">Use input's tag</option>
+                <option value="custom">Enter custom table name</option>
+            </param>
+            <when value="tag">
+            </when>
+            <when value="custom">
+                <param name="custom_name" type="text" area="false" label="Custom sample name"/>
+            </when>
+        </conditional>
 
-		<!-- Additional files, if the user needs more -->
-		<repeat name="beds" title="Add'l sorted BED files" >
-			<param name="input" format="bed" type="data" label="BED file" />
+        <!-- Additional files, if the user needs more -->
+        <repeat name="beds" title="Add'l sorted BED files" >
+            <param name="input" format="bed" type="data" label="BED file" />
 
-			<conditional name="name">
-				<param name="choice" type="select" label="Sample name">
-					<option value="tag" selected="true">Use input's tag</option>
-					<option value="custom">Enter custom table name</option>
-				</param>
-				<when value="tag">
-				</when>
-				<when value="custom">
-					<param name="custom_name" type="text" area="false" label="Custom sample name"/>
-				</when>
-			</conditional>
-		</repeat>
+            <conditional name="name">
+                <param name="choice" type="select" label="Sample name">
+                    <option value="tag" selected="true">Use input's tag</option>
+                    <option value="custom">Enter custom table name</option>
+                </param>
+                <when value="tag">
+                </when>
+                <when value="custom">
+                    <param name="custom_name" type="text" area="false" label="Custom sample name"/>
+                </when>
+            </conditional>
+        </repeat>
 
-		<param name="header" type="boolean" checked="true" truevalue="-header" falsevalue="" label="Print header line" help="The first line will include the name of each sample." />
+        <param name="header" type="boolean" checked="true" truevalue="-header" falsevalue="" label="Print header line" help="The first line will include the name of each sample." />
 
-		<param name="zero" type="boolean" checked="true" label="Report regions that are not covered by any of the files" help="If set, regions that are not overlapped by any file will also be reported. Requires a valid organism key for all input datasets" />
+        <param name="zero" type="boolean" checked="true" label="Report regions that are not covered by any of the files" help="If set, regions that are not overlapped by any file will also be reported. Requires a valid organism key for all input datasets" />
 
-	</inputs>
+    </inputs>
 
-	<outputs>
-		<data format="tabular" name="output"  metadata_source="input1" label="Common intervals identified from among ${input1.name}, ${input2.name} and so on." />
-	</outputs>
-	<help>
-	
+    <outputs>
+        <data format="tabular" name="output"  metadata_source="input1" label="Common intervals identified from among ${input1.name}, ${input2.name} and so on." />
+    </outputs>
+    <help>
+    
 **What it does**
 
 This tool identifies common intervals among multiple, sorted BED files. Intervals can be common among 0 to N of the N input BED files. The pictorial and raw data examples below illustrate the behavior of this tool more clearly.
@@ -149,42 +149,42 @@ The output file will contain five fixed columns, plus additional columns for eac
 **Example without a header and without reporting intervals with zero coverage**::
 
 
-    chr1	6	8	1	1	1	0	0
-    chr1	8	12	2	1,3	1	0	1
-    chr1	12	15	3	1,2,3	1	1	1
-    chr1	15	20	2	1,2	1	1	0
-    chr1	20	22	1	2	0	1	0
-    chr1	22	30	2	1,2	1	1	0
-    chr1	30	32	1	2	0	1	0
-    chr1	32	34	1	3	0	0	1
+    chr1    6    8    1    1    1    0    0
+    chr1    8    12    2    1,3    1    0    1
+    chr1    12    15    3    1,2,3    1    1    1
+    chr1    15    20    2    1,2    1    1    0
+    chr1    20    22    1    2    0    1    0
+    chr1    22    30    2    1,2    1    1    0
+    chr1    30    32    1    2    0    1    0
+    chr1    32    34    1    3    0    0    1
 
 
 **Example adding a header line**::
 
 
-    chrom	start	end	num	list	a.bed	b.bed	c.bed
-    chr1	6	8	1	1	1	0	0
-    chr1	8	12	2	1,3	1	0	1
-    chr1	12	15	3	1,2,3	1	1	1
-    chr1	15	20	2	1,2	1	1	0
-    chr1	20	22	1	2	0	1	0
-    chr1	22	30	2	1,2	1	1	0
-    chr1	30	32	1	2	0	1	0
-    chr1	32	34	1	3	0	0	1
+    chrom    start    end    num    list    a.bed    b.bed    c.bed
+    chr1    6    8    1    1    1    0    0
+    chr1    8    12    2    1,3    1    0    1
+    chr1    12    15    3    1,2,3    1    1    1
+    chr1    15    20    2    1,2    1    1    0
+    chr1    20    22    1    2    0    1    0
+    chr1    22    30    2    1,2    1    1    0
+    chr1    30    32    1    2    0    1    0
+    chr1    32    34    1    3    0    0    1
 
 
 **Example adding a header line and custom file labels**::
 
 
-    chrom	start	end	num	list	    joe	bob	sue
-    chr1	6	8	1	joe	    1	0	0
-    chr1	8	12	2	joe,sue	    1	0	1
-    chr1	12	15	3	joe,bob,sue 1	1	1
-    chr1	15	20	2	joe,bob	    1	1	0
-    chr1	20	22	1	bob	    0	1	0
-    chr1	22	30	2	joe,bob	    1	1	0
-    chr1	30	32	1	bob	    0	1	0
-    chr1	32	34	1	sue	    0	0	1
+    chrom    start    end    num    list        joe    bob    sue
+    chr1    6    8    1    joe        1    0    0
+    chr1    8    12    2    joe,sue        1    0    1
+    chr1    12    15    3    joe,bob,sue 1    1    1
+    chr1    15    20    2    joe,bob        1    1    0
+    chr1    20    22    1    bob        0    1    0
+    chr1    22    30    2    joe,bob        1    1    0
+    chr1    30    32    1    bob        0    1    0
+    chr1    32    34    1    sue        0    0    1
 
 
 -----
