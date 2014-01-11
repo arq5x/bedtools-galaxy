@@ -1,34 +1,31 @@
-<tool id="bedtools_genomecoveragebed_histogram" name="Create a histogram of genome coverage" version="0.1.0">
-	<description>
-	</description>
-	
-	<requirements>
-        <requirement type="binary">genomeCoverageBed</requirement>
+<tool id="bedtools_genomecoveragebed_histogram" name="Create a histogram" version="2.18.2.0">
+    <description>of genome coverage</description>
+    <requirements>
+        <requirement type="package" version="2.18.2">bedtools2</requirement>
     </requirements>
-    
-	<command>genomeCoverageBed
+    <version_command>bedtools --version</version_command>
+    <command>genomeCoverageBed
         #if $input.ext == "bam"
             -ibam '$input'
         #else
             -i '$input'
             -g ${chromInfo}
         #end if
-		#if str($max):
+        #if str($max):
           -max      $max
         #end if
-		&gt; '$output'
-	</command>
+        &gt; '$output'
+    </command>
 
-	<inputs>
-		<param format="bed,bam" name="input" type="data" label="The BAM or BED file from which coverage should be computed"></param>
-		<param name="max" type="text" optional="true" label="Max depth" help="Combine all positions with a depth >= max into a single bin in the histogram."/>
-	</inputs>
+    <inputs>
+        <param format="bed,bam" name="input" type="data" label="The BAM or BED file from which coverage should be computed"></param>
+        <param name="max" type="text" optional="true" label="Max depth" help="Combine all positions with a depth >= max into a single bin in the histogram."/>
+    </inputs>
 
-	<outputs>
-		<data format="tabular" name="output"  metadata_source="input" label="${input.name} (Genome Coverage Histogram)" />
-	</outputs>
-
-<help>
+    <outputs>
+        <data format="tabular" name="output"  metadata_source="input" label="${input.name} (Genome Coverage Histogram)" />
+    </outputs>
+    <help>
 **What it does**
 
 This tool calculates a histogram of genome coverage depth based on mapped reads in BAM format or intervals in BED format.
@@ -36,9 +33,6 @@ This tool calculates a histogram of genome coverage depth based on mapped reads 
 
 ------
 
-.. class:: warningmark
-
-This tool requires that `bedtools`__ has been installed on your system.
 
 .. class:: infomark
 
@@ -71,11 +65,8 @@ The output file will contain five columns:
 This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. If you use this tool, please cite `Quinlan AR, and Hall I.M. BEDTools: A flexible framework for comparing genomic features. Bioinformatics, 2010, 26, 6.`__
 
     .. __: http://code.google.com/p/bedtools/
-    .. __: http://code.google.com/p/bedtools/
     .. __: http://cphg.virginia.edu/quinlan/
     .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short
 
-
-
-</help>
+    </help>
 </tool>

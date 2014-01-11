@@ -1,12 +1,9 @@
-<tool id="bedtools_genomecoveragebed_bedgraph" name="Create a BedGraph of genome coverage" version="0.1.0">
-
-    <description>
-    </description>
-    
+<tool id="bedtools_genomecoveragebed_bedgraph" name="Create a BedGraph" version="2.18.2.0">
+    <description>of genome coverage</description>
     <requirements>
-        <requirement type="binary">genomeCoverageBed</requirement>
+        <requirement type="package" version="2.18.2">bedtools2</requirement>
     </requirements>
-
+    <version_command>bedtools --version</version_command>
     <command>genomeCoverageBed
         #if $input.ext == "bam"
             -ibam '$input'
@@ -58,10 +55,6 @@ This tool calculates the genome-wide coverage of intervals defined in a BAM or B
 
 The input BED or BAM file must be sorted by chromosome name (but doesn't necessarily have to be sorted by start position).
 
-.. class:: warningmark
-
-This tool requires that `bedtools`__ has been installed on your system.
-
 -----
 
 **Example 1**
@@ -110,8 +103,7 @@ Sorted, non-overlapping intervals, with coverage value on the 4th column::
 This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. If you use this tool, please cite `Quinlan AR, and Hall I.M. BEDTools: A flexible framework for comparing genomic features. Bioinformatics, 2010, 26, 6.`__
 
         .. __: http://code.google.com/p/bedtools/
-        .. __: http://code.google.com/p/bedtools/
         .. __: http://cphg.virginia.edu/quinlan/
         .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short
-</help>
+    </help>
 </tool>
