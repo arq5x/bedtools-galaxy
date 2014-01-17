@@ -40,22 +40,22 @@
     </outputs>
     <help>
 
-    **What it does**
+**What it does**
 
-    This tool converts counts the number of intervals in a BAM or BED file (the source) that overlap another BED file (the target).
+This tool converts counts the number of intervals in a BAM or BED file (the source) that overlap another BED file (the target).
 
-    .. class:: infomark
+.. class:: infomark
 
-    The output file will be comprised of each interval from your original target BED file, plus an additional column indicating the number of intervals in your source file that overlapped that target interval.
+The output file will be comprised of each interval from your original target BED file, plus an additional column indicating the number of intervals in your source file that overlapped that target interval.
 
 
-    ------
+------
 
-    This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. If you use this tool, please cite `Quinlan AR, and Hall I.M. BEDTools: A flexible framework for comparing genomic features. Bioinformatics, 2010, 26, 6.`__
+This tool is part of the `bedtools package`__ from the `Quinlan laboratory`__. If you use this tool, please cite `Quinlan AR, and Hall I.M. BEDTools: A flexible framework for comparing genomic features. Bioinformatics, 2010, 26, 6.`__
 
-        .. __: http://code.google.com/p/bedtools/
-        .. __: http://cphg.virginia.edu/quinlan/
-        .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short
+    .. __: http://code.google.com/p/bedtools/
+    .. __: http://cphg.virginia.edu/quinlan/
+    .. __: http://bioinformatics.oxfordjournals.org/content/26/6/841.short
 
     </help>
 </tool>
